@@ -5,6 +5,7 @@
 
 
 <div>There are @Model.Count() teachers in the system.</div>
+<div><a href="/Teacher/New">Add new teacher</a></div>
 <div>
     <form action="/Teacher/List" method="GET">
         <input type="text" name="SearchKey" placeholder="Type a name here" />
@@ -15,8 +16,9 @@
     @{
         foreach (BlogProject.Models.Teacher Teacher in Model)
         {
+            string Url = "/Teacher/Show/" + Teacher.TeacherId;
             <div>
-                <a href="/Teacher/Show/@Teacher.TeacherId">@Teacher.TeacherFName @Teacher.TeacherLName</a>
+                <a href="@Url">@Teacher.TeacherFName @Teacher.TeacherLName</a>
             </div>
         }
     }

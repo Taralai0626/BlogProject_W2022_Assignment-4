@@ -5,6 +5,7 @@
 
 
 <div>There are @Model.Count() students in the system.</div>
+<div><a href="/Student/New">Add new Student</a></div>
 <div>
     <form action="/Student/List" method="GET">
         <input type="text" name="SearchKey" placeholder="Type a name here" />
@@ -15,8 +16,9 @@
     @{
         foreach (BlogProject.Models.Student Student in Model)
         {
+            string Url = "/Student/Show/" + Student.StudentId;
             <div>
-                <a href="/Student/Show/@Student.StudentId">@Student.StudentFName @Student.StudentLName</a>
+                <a href="@Url">@Student.StudentFName @Student.StudentLName</a>
             </div>
         }
     }

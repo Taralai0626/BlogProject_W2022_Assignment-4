@@ -16,7 +16,7 @@ namespace BlogProject.Models
 
         public string StudentNum { get; set; }
 
-        public DateTime StudentEnrolDate { get; set; }
+       // public DateTime StudentEnrolDate { get; set; }
 
     }
 }

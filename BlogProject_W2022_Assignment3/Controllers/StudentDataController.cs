@@ -70,7 +70,7 @@ namespace BlogProject.Controllers
                 NewStudent.StudentFName = ResultSet["studentfname"].ToString();
                 NewStudent.StudentLName = ResultSet["studentlname"].ToString();
                 NewStudent.StudentNum = ResultSet["studentnumber"].ToString();
-                NewStudent.StudentEnrolDate = Convert.ToDateTime(ResultSet["enroldate"]);
+                //NewStudent.StudentEnrolDate = Convert.ToDateTime(ResultSet["enroldate"]);
 
                 //Add the Student Name to the List
                 Students.Add(NewStudent);
@@ -116,7 +116,7 @@ namespace BlogProject.Controllers
                     SelectedStudent.StudentFName = (ResultSet["studentfname"]).ToString();
                     SelectedStudent.StudentLName = (ResultSet["studentlname"]).ToString();
                     SelectedStudent.StudentNum = ResultSet["studentnumber"].ToString();
-                    SelectedStudent.StudentEnrolDate = Convert.ToDateTime(ResultSet["enroldate"]);
+                   // SelectedStudent.StudentEnrolDate = Convert.ToDateTime(ResultSet["enroldate"]);
 
                 }
             //Close the connection between the MySQL Database and the WebServer
@@ -125,6 +125,58 @@ namespace BlogProject.Controllers
             //Return the final list of student names
             return SelectedStudent;
         }
+
+        /// <summary>
+        /// Adds a new Student to the system given Student information
+        /// <paramref name="NewStudent"/> Student information to add </paramref>
+        /// </summary>
+        public void AddStudent(Student NewStudent)
+        {
+            //create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //open the connection between the web server and database
+            Conn.Open();
+
+            //establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            string query = "insert into teachers (studentfname, studentlname, studentnumber) values(@studentfname,@studentlname,@studentnumber)";
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@studentfname", NewStudent.StudentFName);
+            cmd.Parameters.AddWithValue("@studentlname", NewStudent.StudentLName);
+            cmd.Parameters.AddWithValue("@studentnumber", NewStudent.StudentNum);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+        }
+        /// <summary>
+        /// delete a Student in the system
+        /// </summary>
+        /// <param name="StudentId">the primary key StudentId</param>
+        public void DeleteStudent(int StudentId)
+        {
+            //create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //open the connection between the web server and database
+            Conn.Open();
+
+            //establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            string query = "delete from students where studentid = @id";
+            cmd.Parameters.AddWithValue("@id", StudentId);
+            cmd.CommandText = query;
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
+        }
+
 
 
     }

@@ -69,8 +69,10 @@ namespace BlogProject.Controllers
                 NewTeacher.TeacherId = Convert.ToInt32(ResultSet["teacherid"]);
                 NewTeacher.TeacherFName = ResultSet["teacherfname"].ToString();
                 NewTeacher.TeacherLName = ResultSet["teacherlname"].ToString();
-                NewTeacher.TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
-                NewTeacher.TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
+                NewTeacher.EmployeeNumber = ResultSet["employeenumber"].ToString();
+
+                //NewTeacher.TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
+                //NewTeacher.TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
 
                 //Add the Teacher Name to the List
                 Teachers.Add(NewTeacher);
@@ -114,8 +116,9 @@ namespace BlogProject.Controllers
                 SelectedTeacher.TeacherId = Convert.ToInt32(ResultSet["teacherid"]);
                 SelectedTeacher.TeacherFName = (ResultSet["teacherfname"]).ToString();
                 SelectedTeacher.TeacherLName = (ResultSet["teacherlname"]).ToString();
-                SelectedTeacher.TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
-                SelectedTeacher.TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
+                SelectedTeacher.EmployeeNumber = (ResultSet["employeenumber"]).ToString();
+                //SelectedTeacher.TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
+                //SelectedTeacher.TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
             }
             //Close the connection between the MySQL Database and the WebServer
             Conn.Close();
@@ -123,6 +126,59 @@ namespace BlogProject.Controllers
             //Return the final list of Teacher names
             return SelectedTeacher;
         }
+        /// <summary>
+        /// Adds a new teacher to the system given teacher information
+        /// <paramref name="NewTeacher"/> Teacher information to add </paramref>
+        /// </summary>
+        public void AddTeacher(Teacher NewTeacher)
+        {
+            //create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //open the connection between the web server and database
+            Conn.Open();
+
+            //establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            string query = "insert into teachers (teacherfname, teacherlname, employeenumber) values(@teacherfname,@teacherlname,@employeenumber)";
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@teacherfname", NewTeacher.TeacherFName);
+            cmd.Parameters.AddWithValue("@teacherlname", NewTeacher.TeacherLName);
+            cmd.Parameters.AddWithValue("@employeenumber", NewTeacher.EmployeeNumber);
+            cmd.Prepare();
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+        }
+        /// <summary>
+        /// delete a teacher in the system
+        /// </summary>
+        /// <param name="TeacherId">the primary key teacherid</param>
+        
+        public void DeleteTeacher(int TeacherId)
+        {
+            //create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //open the connection between the web server and database
+            Conn.Open();
+
+            //establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            string query = "delete from teachers where teacherid = @id";
+            cmd.Parameters.AddWithValue("@id", TeacherId);
+            cmd.CommandText = query;
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
+        }
+        
+
 
 
     }

@@ -13,8 +13,10 @@ namespace BlogProject.Models
 
         public string TeacherLName { get; set; }
 
-        public DateTime TeacherHireDate { get; set; }
+        public string EmployeeNumber { get; set; }
 
-        public decimal TeacherSalary { get; set; }
+       // public DateTime TeacherHireDate { get; set; }
+
+       // public decimal TeacherSalary { get; set; }
     }
 }
