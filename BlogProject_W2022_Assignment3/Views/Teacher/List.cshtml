@@ -3,10 +3,12 @@
     ViewBag.Title = "List";
 }
 
+<div id="containerlist">
+    <nav>
+        <a href="/Teacher/New">Add new teacher</a>
+    </nav>
 
-<div>There are @Model.Count() teachers in the system.</div>
-<div><a href="/Teacher/New">Add new teacher</a></div>
-<div>
+    <h2> List of Teachers</h2>
     <form action="/Teacher/List" method="GET">
         <input type="text" name="SearchKey" placeholder="Type a name here" />
         <input type="submit" value="Search" />
@@ -14,12 +16,13 @@
 </div>
 <div>
     @{
-        foreach (BlogProject.Models.Teacher Teacher in Model)
+        foreach (var teacher in Model)
         {
-            string Url = "/Teacher/Show/" + Teacher.TeacherId;
-            <div>
-                <a href="@Url">@Teacher.TeacherFName @Teacher.TeacherLName</a>
+        <div class="list-group-item row">
+            <div class="col-md-12">
+                <a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherFName @teacher.TeacherLName</a>
             </div>
+        </div>
         }
     }
 

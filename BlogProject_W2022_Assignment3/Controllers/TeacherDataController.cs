@@ -177,7 +177,37 @@ namespace BlogProject.Controllers
             Conn.Close();
 
         }
-        
+        /// <summary>
+        /// Updates a Teacher in the system goven teacher information
+        /// </summary>
+        /// <param name="TeacherId">primary key of the teacher to update</param>
+        /// <param name="TeacherInfo">teach object containing first name. last name and </param>
+        public void UpdateTeacher(int TeacherId, Teacher TeacherInfo)
+        {
+            //create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            //open the connection between the web server and database
+            Conn.Open();
+
+            //establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //SQL Qurery
+            cmd.CommandText = "update teachers set teacherfname=@teacherfname, teacherlname=@teacherlname,employeenumber=@employeenumber WHERE teacherid=@teacherid";
+
+           
+            cmd.Parameters.AddWithValue("@teacherfname", TeacherInfo.TeacherFName);
+            cmd.Parameters.AddWithValue("@teacherlname", TeacherInfo.TeacherLName);
+            cmd.Parameters.AddWithValue("@employeenumber", TeacherInfo.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@teacherid", TeacherId);
+          
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
+        }
 
 
 

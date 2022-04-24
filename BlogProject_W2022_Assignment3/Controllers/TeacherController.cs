@@ -95,5 +95,47 @@ namespace BlogProject.Controllers
             return RedirectToAction("List");
         }
         
+        //Get:/Teahcer/Edit/{id}
+        /// <summary>
+        /// return a webpage of the teacher
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public ActionResult Edit(int Id)
+        {
+            // I need to pass teacher info to the view to show that to the user
+            TeacherDataController controller = new TeacherDataController();
+            Teacher SelectedTeacher = controller.FindTeacher(Id);
+
+
+            return View(SelectedTeacher);
+        }
+        /// <summary>
+        /// This method actually updates the theacher
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        //POST:/Teacher/Update/{id}
+        [HttpPost]
+        public ActionResult Update(int Id, string teacherfname, string teacherlname, string employeenumber)
+        {
+            Debug.WriteLine("The teacher name is " + teacherfname);
+            Debug.WriteLine("The ID is " + Id);
+
+            Teacher TeacherInfo = new Teacher();
+            TeacherInfo.TeacherFName = teacherfname;
+            TeacherInfo.TeacherLName = teacherlname;
+            TeacherInfo.EmployeeNumber = employeenumber;
+            TeacherInfo.TeacherId = Id;
+
+            //update the teahccer information
+            TeacherDataController controller = new TeacherDataController();
+            controller.UpdateTeacher(Id, TeacherInfo);
+
+
+
+            //return to the teacher that i just changed 
+            return RedirectToAction("/Show/" + Id);
+        }
     }
 }
